@@ -12,30 +12,33 @@ class SignInView extends StatefulWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      fixedSize:
-                          Size(MediaQuery.of(context).size.width / 1.7, 40)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SvgPicture.asset('assets/svg/google_icon.svg'),
-                      const Text(
-                        'Sign In with Google',
-                        style: TextStyle(color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+      body: WillPopScope(
+        onWillPop: () => controller.willPop(),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextButton(
+                    onPressed: () => controller.signIn(),
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        fixedSize:
+                            Size(MediaQuery.of(context).size.width / 1.7, 40)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SvgPicture.asset('assets/svg/google_icon.svg'),
+                        const Text(
+                          'Sign In with Google',
+                          style: TextStyle(color: Colors.black54),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

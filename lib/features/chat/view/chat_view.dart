@@ -2,14 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:live_chat_app/features/chat/controller/chat_controller.dart';
 
 class ChatView extends StatefulWidget {
-  const ChatView({super.key});
+  final String? title;
+  final String? price;
+  final String? image;
+  const ChatView({
+    super.key,
+    this.title,
+    this.price,
+    this.image,
+  });
 
   Widget build(BuildContext context, ChatController controller) {
     return Scaffold(
       backgroundColor: Colors.blue.shade300,
       appBar: AppBar(
         backgroundColor: Colors.blue.shade300,
-        title: const Text('Zahra'),
+        title: const Text('Admin'),
         centerTitle: true,
         elevation: 0.5,
       ),
@@ -18,6 +26,41 @@ class ChatView extends StatefulWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  margin: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width / 5),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Kamu mananyakan produk ini'),
+                      const Divider(),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Image.asset(
+                            image.toString(),
+                            height: 75,
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(title.toString()),
+                                Text(price.toString()),
+                              ])
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
               Align(
                 alignment: Alignment.topRight,
                 child: Container(

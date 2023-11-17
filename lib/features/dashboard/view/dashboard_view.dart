@@ -58,8 +58,128 @@ class DashboardView extends StatefulWidget {
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text('Start Chat'),
+                  children: [
+                    GridView(
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 2.7 / 4,
+                      ),
+                      children: [
+                        InkWell(
+                          onTap: () => Go.to(const ChatView(
+                            title: 'Hanasui',
+                            price: 'Rp 123.500',
+                            image: 'assets/images/hanasui_lipcream.jpeg',
+                          )),
+                          child: Card(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            semanticContainer: true,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  child: Image.asset(
+                                    'assets/images/hanasui_lipcream.jpeg',
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('Hanasui'),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        'Rp 123.500',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => Go.to(const ChatView(
+                            title: 'Skentific 5X',
+                            price: 'Rp 176.200',
+                            image: 'assets/images/skentific_5x.jpeg',
+                          )),
+                          child: Card(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            semanticContainer: true,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  child: Image.asset(
+                                    'assets/images/skentific_5x.jpeg',
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('Skentific 5X'),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        'Rp 176.200',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => Go.to(const ChatView(
+                            title: 'Skentific Sunscreen',
+                            price: 'Rp 65.300',
+                            image: 'assets/images/skentific_sunscreen.jpeg',
+                          )),
+                          child: Card(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            semanticContainer: true,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  child: Image.asset(
+                                    'assets/images/skentific_sunscreen.jpeg',
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('Skentific Sunscreen'),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        'Rp 65.300',
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -67,9 +187,7 @@ class DashboardView extends StatefulWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Go.to(
-            const ChatView(),
-          ),
+          onPressed: () {},
           child: const Icon(Icons.chat),
         ),
       ),

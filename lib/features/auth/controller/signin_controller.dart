@@ -1,20 +1,32 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:live_chat_app/core/services/auth_service.dart';
 import 'package:live_chat_app/features/auth/view/signin_view.dart';
 import 'package:live_chat_app/features/dashboard/view/dashboard_view.dart';
 import 'package:live_chat_app/routes/route.dart';
 
 class SignInController extends State<SignInView> {
+  bool isAsync = false;
+  var googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+    ],
+  );
+
   @override
   void initState() {
     super.initState();
   }
 
   signIn() async {
+    isAsync = true;
+    setState(() {});
     var success = await AuthService.doLoginAsMember();
-    if (success) {
-      Go.to(const DashboardView());
+    if (success == true) {
+      Future.delayed(const Duration(milliseconds: 500),
+          () => Go.to(const DashboardView()));
     }
   }
 

@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:live_chat_app/core/services/auth_service.dart';
+import 'package:live_chat_app/constants/firestore_constants.dart';
+import 'package:live_chat_app/core/models/user_chat_model.dart';
+import 'package:live_chat_app/core/services/dashboard_service.dart';
 import 'package:live_chat_app/features/chat/view/chat_view.dart';
 import 'package:live_chat_app/features/dashboard/controller/dashboard_controller.dart';
 import 'package:live_chat_app/features/widgets/common_modal_progress.dart';
@@ -184,7 +187,81 @@ class DashboardView extends StatefulWidget {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 10),
+                    StreamBuilder(
+                      stream: DashboardService.getStreamFirestore(
+                          FirestoreConstants.pathUserCollection,
+                          controller.limit,
+                          controller.textSearch),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if ((snapshot.data?.docs.length ?? 0) > 0) {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data?.docs.length,
+                              itemBuilder: (context, index) {
+                                if (snapshot.data?.docs != null) {
+                                  UserChatModel userChat =
+                                      UserChatModel.fromDocument(
+                                          snapshot.data?.docs[index]
+                                              as DocumentSnapshot<Object?>);
+                                  return userChat.id == controller.currentUserId
+                                      ? const SizedBox()
+                                      : Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 10),
+                                          child: InkWell(
+                                            onTap: () => Go.to(ChatView(
+                                                currentUser: userChat.id)),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey.shade600,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    backgroundImage:
+                                                        NetworkImage(
+                                                            userChat.photoUrl),
+                                                    radius: 20,
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    userChat.nickname
+                                                        .toUpperCase(),
+                                                    style: const TextStyle(
+                                                        color: Colors.white),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              },
+                            );
+                          } else {
+                            return const Center(
+                              child: Text(
+                                'No User not found',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            );
+                          }
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

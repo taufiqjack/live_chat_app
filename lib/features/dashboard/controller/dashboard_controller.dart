@@ -1,15 +1,45 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:live_chat_app/constants/firestore_constants.dart';
 import 'package:live_chat_app/core/services/auth_service.dart';
+import 'package:live_chat_app/core/services/dashboard_service.dart';
 import 'package:live_chat_app/features/auth/view/signin_view.dart';
 import 'package:live_chat_app/features/dashboard/view/dashboard_view.dart';
 import 'package:live_chat_app/routes/route.dart';
+import 'package:toast/toast.dart';
 
 class DashboardController extends State<DashboardView> {
   bool isAsync = false;
+  int limit = 20;
+  String textSearch = '';
+  String? currentUserId;
   @override
   void initState() {
     super.initState();
+    getToken();
+  }
+
+  void getToken() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      currentUserId = FirebaseAuth.instance.currentUser?.uid;
+      FirebaseMessaging.instance.requestPermission();
+      FirebaseMessaging.instance.getToken().then((token) {
+        if (kDebugMode) {
+          print('token : $token');
+        }
+        if (token != null) {
+          DashboardService.updateDataFirestore(
+              FirestoreConstants.pathUserCollection,
+              currentUserId!,
+              {'pushToken': token});
+        }
+      }).catchError((err) {
+        Toast.show(err.toString());
+      });
+    }
   }
 
   logout() async {

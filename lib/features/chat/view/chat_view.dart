@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:live_chat_app/core/models/chat_message_model.dart';
 import 'package:live_chat_app/core/services/chat_provider.dart';
 import 'package:live_chat_app/features/chat/controller/chat_controller.dart';
@@ -27,10 +28,10 @@ class ChatView extends StatefulWidget {
         elevation: 0.5,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 15, left: 16, right: 16),
-        child: SingleChildScrollView(
-          child: buildMessage(controller),
-          /*  Column(
+        padding:
+            const EdgeInsets.only(top: 15, left: 16, right: 16, bottom: 60),
+        child: buildMessage(controller),
+        /*  Column(
             children: [
               Align(
                 alignment: Alignment.centerLeft,
@@ -112,7 +113,6 @@ class ChatView extends StatefulWidget {
               ),
             ],
           ), */
-        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Row(children: [
@@ -159,54 +159,70 @@ class ChatView extends StatefulWidget {
   }
 
   Widget buildMessage(ChatController controller) {
-    return Flexible(
-        child: controller.groupChatId.isNotEmpty
-            ? StreamBuilder<QuerySnapshot>(
-                stream: ChatProvider.getChatMessage(
-                    controller.groupChatId, controller.limit),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    controller.listMessage = snapshot.data!.docs;
-                    if (controller.listMessage.isNotEmpty) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        reverse: true,
-                        itemCount: snapshot.data?.docs.length,
-                        itemBuilder: (context, index) {
-                          ChatMessageModel chatMessage =
-                              ChatMessageModel.fromDocument(snapshot.data
-                                  ?.docs[index] as DocumentSnapshot<Object?>);
-                          return Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          color: Colors.white),
-                                      child: Text('${chatMessage.content}'))));
-                        },
-                      );
-                    } else {
-                      return const Center(
-                        child: Text(
-                          'No Message here',
-                          style: TextStyle(color: Colors.white),
+    return controller.groupChatId.isNotEmpty
+        ? StreamBuilder<QuerySnapshot>(
+            stream: ChatProvider.getChatMessage(
+                controller.groupChatId, controller.limit),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                controller.listMessage = snapshot.data!.docs;
+                if (controller.listMessage.isNotEmpty) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    reverse: true,
+                    itemCount: snapshot.data?.docs.length,
+                    itemBuilder: (context, index) {
+                      ChatMessageModel chatMessage =
+                          ChatMessageModel.fromDocument(snapshot
+                              .data?.docs[index] as DocumentSnapshot<Object?>);
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Align(
+                          alignment: chatMessage.idFrom == currentUser
+                              ? Alignment.topRight
+                              : Alignment.topLeft,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text('${chatMessage.content}'),
+                                Text(
+                                  DateFormat('HH:mm').format(
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                          int.parse(chatMessage.timeStamp!))),
+                                  style: const TextStyle(fontSize: 8),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       );
-                    }
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              )
-            : const Center(
-                child: CircularProgressIndicator(),
-              ));
+                    },
+                  );
+                } else {
+                  return const Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'No Message here',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                }
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          )
+        : const Center(
+            child: CircularProgressIndicator(),
+          );
   }
 
   @override

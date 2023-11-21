@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:live_chat_app/features/splash/views/splash_view.dart';
 import 'package:live_chat_app/firebase_options.dart';
 import 'package:live_chat_app/routes/route.dart';
+import 'package:toast/toast.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.dark));

@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:live_chat_app/core/services/auth_service.dart';
 import 'package:live_chat_app/features/chat/view/chat_view.dart';
 import 'package:live_chat_app/features/dashboard/controller/dashboard_controller.dart';
 import 'package:live_chat_app/features/widgets/common_modal_progress.dart';
@@ -68,7 +70,8 @@ class DashboardView extends StatefulWidget {
                       ),
                       children: [
                         InkWell(
-                          onTap: () => Go.to(const ChatView(
+                          onTap: () => Go.to(ChatView(
+                            currentUser: FirebaseAuth.instance.currentUser!.uid,
                             title: 'Hanasui',
                             price: 'Rp 123.500',
                             image: 'assets/images/hanasui_lipcream.jpeg',
@@ -105,7 +108,8 @@ class DashboardView extends StatefulWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => Go.to(const ChatView(
+                          onTap: () => Go.to(ChatView(
+                            currentUser: FirebaseAuth.instance.currentUser!.uid,
                             title: 'Skentific 5X',
                             price: 'Rp 176.200',
                             image: 'assets/images/skentific_5x.jpeg',
@@ -142,7 +146,8 @@ class DashboardView extends StatefulWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => Go.to(const ChatView(
+                          onTap: () => Go.to(ChatView(
+                            currentUser: FirebaseAuth.instance.currentUser!.uid,
                             title: 'Skentific Sunscreen',
                             price: 'Rp 65.300',
                             image: 'assets/images/skentific_sunscreen.jpeg',

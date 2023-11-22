@@ -74,7 +74,7 @@ class DashboardView extends StatefulWidget {
                       children: [
                         InkWell(
                           onTap: () => Go.to(ChatView(
-                            currentUser: FirebaseAuth.instance.currentUser!.uid,
+                            userChatId: FirebaseAuth.instance.currentUser!.uid,
                             title: 'Hanasui',
                             price: 'Rp 123.500',
                             image: 'assets/images/hanasui_lipcream.jpeg',
@@ -112,7 +112,7 @@ class DashboardView extends StatefulWidget {
                         ),
                         InkWell(
                           onTap: () => Go.to(ChatView(
-                            currentUser: FirebaseAuth.instance.currentUser!.uid,
+                            userChatId: FirebaseAuth.instance.currentUser!.uid,
                             title: 'Skentific 5X',
                             price: 'Rp 176.200',
                             image: 'assets/images/skentific_5x.jpeg',
@@ -150,7 +150,7 @@ class DashboardView extends StatefulWidget {
                         ),
                         InkWell(
                           onTap: () => Go.to(ChatView(
-                            currentUser: FirebaseAuth.instance.currentUser!.uid,
+                            userChatId: FirebaseAuth.instance.currentUser!.uid,
                             title: 'Skentific Sunscreen',
                             price: 'Rp 65.300',
                             image: 'assets/images/skentific_sunscreen.jpeg',
@@ -213,7 +213,7 @@ class DashboardView extends StatefulWidget {
                                               const EdgeInsets.only(bottom: 10),
                                           child: InkWell(
                                             onTap: () => Go.to(ChatView(
-                                                currentUser: userChat.id)),
+                                                userChatId: userChat.id)),
                                             child: Container(
                                               padding: const EdgeInsets.all(5),
                                               decoration: BoxDecoration(

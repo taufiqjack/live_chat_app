@@ -8,22 +8,35 @@ import 'package:toast/toast.dart';
 
 class ChatController extends State<ChatView> {
   var textMessage = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
   List<QueryDocumentSnapshot> listMessage = [];
   String? currentUserId;
   int limit = 20;
+  int limitIncrement = 20;
   String groupChatId = '';
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(scrollListener);
     readDocument();
+  }
+
+  scrollListener() {
+    if (!scrollController.hasClients) return;
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange &&
+        limit <= listMessage.length) {
+      limit += limitIncrement;
+      setState(() {});
+    }
   }
 
   void readDocument() {
     if (FirebaseAuth.instance.currentUser != null) {
       currentUserId = FirebaseAuth.instance.currentUser?.uid;
 
-      String peerId = widget.currentUser;
+      String peerId = widget.userChatId;
       if (currentUserId!.compareTo(peerId) > 0) {
         groupChatId = '$currentUserId-$peerId';
       } else {
@@ -31,7 +44,7 @@ class ChatController extends State<ChatView> {
       }
       ChatProvider.updateFirestoreData(
           FirestoreConstants.pathUserCollection, currentUserId!, {
-        FirestoreConstants.chattingWith: widget.currentUser,
+        FirestoreConstants.chattingWith: widget.userChatId,
       });
     }
   }
@@ -39,8 +52,12 @@ class ChatController extends State<ChatView> {
   void onSendMessage(int type) async {
     if (textMessage.text.trim().isNotEmpty) {
       ChatProvider.sendMesaage(textMessage.text, type, groupChatId,
-          currentUserId!, widget.currentUser);
+          currentUserId!, widget.userChatId);
       textMessage.clear();
+      if (scrollController.hasClients) {
+        scrollController.animateTo(-1,
+            duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+      }
     } else {
       Toast.show('Nothing to send',
           gravity: Toast.bottom, duration: Toast.lengthLong);

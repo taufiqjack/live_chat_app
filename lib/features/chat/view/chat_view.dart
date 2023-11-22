@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:live_chat_app/constants/datetime_constant.dart';
+import 'package:live_chat_app/constants/string_extension.dart';
 import 'package:live_chat_app/core/models/chat_message_model.dart';
 import 'package:live_chat_app/core/services/chat_provider.dart';
 import 'package:live_chat_app/features/chat/controller/chat_controller.dart';
 
 class ChatView extends StatefulWidget {
-  final String currentUser;
+  final String userChatId;
   final String? title;
   final String? price;
   final String? image;
@@ -15,7 +17,7 @@ class ChatView extends StatefulWidget {
     this.title,
     this.price,
     this.image,
-    required this.currentUser,
+    required this.userChatId,
   });
 
   Widget build(BuildContext context, ChatController controller) {
@@ -30,89 +32,51 @@ class ChatView extends StatefulWidget {
       body: Padding(
         padding:
             const EdgeInsets.only(top: 15, left: 16, right: 16, bottom: 60),
-        child: buildMessage(controller),
-        /*  Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  margin: EdgeInsets.only(
-                      right: MediaQuery.of(context).size.width / 5),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Kamu mananyakan produk ini'),
-                      const Divider(),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          Image.asset(
-                            image.toString(),
-                            height: 75,
+        child: SingleChildScrollView(
+            controller: controller.scrollController,
+            reverse: true,
+            child: Column(
+              children: [
+                image != null
+                    ? Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width / 5),
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Kamu mananyakan produk ini'),
+                              const Divider(),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    image.toString(),
+                                    height: 75,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(title.toString()),
+                                        Text(price.toString()),
+                                      ])
+                                ],
+                              )
+                            ],
                           ),
-                          const SizedBox(width: 10),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(title.toString()),
-                                Text(price.toString()),
-                              ])
-                        ],
+                        ),
                       )
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
-                  child: const Text('Hay'),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
-                  child: const Text('Hallo'),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
-                  child: const Text('Apa Kabar?'),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
-                  child: const Text('Alhamdulillah, baik'),
-                ),
-              ),
-            ],
-          ), */
+                    : const SizedBox(),
+                buildMessage(controller),
+              ],
+            )),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Row(children: [
@@ -168,6 +132,7 @@ class ChatView extends StatefulWidget {
                 controller.listMessage = snapshot.data!.docs;
                 if (controller.listMessage.isNotEmpty) {
                   return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     reverse: true,
                     itemCount: snapshot.data?.docs.length,
@@ -176,25 +141,39 @@ class ChatView extends StatefulWidget {
                           ChatMessageModel.fromDocument(snapshot
                               .data?.docs[index] as DocumentSnapshot<Object?>);
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.only(top: 5, bottom: 8),
                         child: Align(
-                          alignment: chatMessage.idFrom == currentUser
-                              ? Alignment.topRight
-                              : Alignment.topLeft,
+                          alignment: image == null
+                              ? chatMessage.idFrom == userChatId
+                                  ? Alignment.topLeft
+                                  : Alignment.topRight
+                              : Alignment.topRight,
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Colors.white),
+                                color: chatMessage.idFrom != userChatId
+                                    ? Colors.green.shade300
+                                    : Colors.white),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text('${chatMessage.content}'),
                                 Text(
-                                  DateFormat('HH:mm').format(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          int.parse(chatMessage.timeStamp!))),
-                                  style: const TextStyle(fontSize: 8),
+                                  '${chatMessage.content}',
+                                  style: TextStyle(
+                                      color: chatMessage.idFrom != userChatId
+                                          ? Colors.white
+                                          : Colors.black),
+                                ),
+                                Text(
+                                  chatMessage.timeStamp!
+                                      .fromMiliSecond()
+                                      .toTime(),
+                                  style: TextStyle(
+                                      fontSize: 8,
+                                      color: chatMessage.idFrom != userChatId
+                                          ? Colors.black54
+                                          : Colors.black),
                                   textAlign: TextAlign.right,
                                 ),
                               ],

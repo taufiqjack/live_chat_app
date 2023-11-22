@@ -40,6 +40,15 @@ class ChatProvider {
       transaction.set(documentReference, messageModel.toJson());
     });
   }
+
+  static void deleteMessageId(String groupChatId, String id) {
+    FirebaseFirestore.instance
+        .collection(FirestoreConstants.pathMessageCollection)
+        .doc(groupChatId)
+        .collection(groupChatId)
+        .doc(id)
+        .delete();
+  }
 }
 
 class TypeMessage {

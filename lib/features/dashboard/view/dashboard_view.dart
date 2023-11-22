@@ -74,6 +74,7 @@ class DashboardView extends StatefulWidget {
                       children: [
                         InkWell(
                           onTap: () => Go.to(ChatView(
+                            name: 'Admin',
                             userChatId: FirebaseAuth.instance.currentUser!.uid,
                             title: 'Hanasui',
                             price: 'Rp 123.500',
@@ -116,6 +117,7 @@ class DashboardView extends StatefulWidget {
                             title: 'Skentific 5X',
                             price: 'Rp 176.200',
                             image: 'assets/images/skentific_5x.jpeg',
+                            name: 'Admin',
                           )),
                           child: Card(
                             clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -154,6 +156,7 @@ class DashboardView extends StatefulWidget {
                             title: 'Skentific Sunscreen',
                             price: 'Rp 65.300',
                             image: 'assets/images/skentific_sunscreen.jpeg',
+                            name: 'Admin',
                           )),
                           child: Card(
                             clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -213,6 +216,7 @@ class DashboardView extends StatefulWidget {
                                               const EdgeInsets.only(bottom: 10),
                                           child: InkWell(
                                             onTap: () => Go.to(ChatView(
+                                                name: userChat.nickname,
                                                 userChatId: userChat.id)),
                                             child: Container(
                                               padding: const EdgeInsets.all(5),

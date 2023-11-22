@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:live_chat_app/constants/datetime_constant.dart';
 import 'package:live_chat_app/constants/string_extension.dart';
 import 'package:live_chat_app/core/models/chat_message_model.dart';
@@ -9,6 +9,7 @@ import 'package:live_chat_app/features/chat/controller/chat_controller.dart';
 
 class ChatView extends StatefulWidget {
   final String userChatId;
+  final String name;
   final String? title;
   final String? price;
   final String? image;
@@ -18,6 +19,7 @@ class ChatView extends StatefulWidget {
     this.price,
     this.image,
     required this.userChatId,
+    required this.name,
   });
 
   Widget build(BuildContext context, ChatController controller) {
@@ -25,9 +27,30 @@ class ChatView extends StatefulWidget {
       backgroundColor: Colors.blue.shade300,
       appBar: AppBar(
         backgroundColor: Colors.blue.shade300,
-        title: const Text('Admin'),
+        title: Text(name),
         centerTitle: true,
         elevation: 0.5,
+        actions: [
+          PopupMenuButton(
+            icon: const Icon(
+              Icons.more_vert,
+              color: Colors.black,
+            ),
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  child: const Text(
+                    'Delete all chat',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                  onTap: () {},
+                )
+              ];
+            },
+          )
+        ],
       ),
       body: Padding(
         padding:
@@ -142,41 +165,56 @@ class ChatView extends StatefulWidget {
                               .data?.docs[index] as DocumentSnapshot<Object?>);
                       return Padding(
                         padding: const EdgeInsets.only(top: 5, bottom: 8),
-                        child: Align(
-                          alignment: image == null
-                              ? chatMessage.idFrom == userChatId
-                                  ? Alignment.topLeft
-                                  : Alignment.topRight
-                              : Alignment.topRight,
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: chatMessage.idFrom != userChatId
-                                    ? Colors.green.shade300
-                                    : Colors.white),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                        child: Slidable(
+                          endActionPane: ActionPane(
+                              motion: const ScrollMotion(),
                               children: [
-                                Text(
-                                  '${chatMessage.content}',
-                                  style: TextStyle(
-                                      color: chatMessage.idFrom != userChatId
-                                          ? Colors.white
-                                          : Colors.black),
-                                ),
-                                Text(
-                                  chatMessage.timeStamp!
-                                      .fromMiliSecond()
-                                      .toTime(),
-                                  style: TextStyle(
-                                      fontSize: 8,
-                                      color: chatMessage.idFrom != userChatId
-                                          ? Colors.black54
-                                          : Colors.black),
-                                  textAlign: TextAlign.right,
-                                ),
-                              ],
+                                SlidableAction(
+                                  backgroundColor: Colors.red.shade300,
+                                  onPressed: (context) {
+                                    ChatProvider.deleteMessageId(
+                                        controller.groupChatId,
+                                        chatMessage.timeStamp!);
+                                  },
+                                  icon: Icons.delete,
+                                )
+                              ]),
+                          child: Align(
+                            alignment: image == null
+                                ? chatMessage.idFrom == userChatId
+                                    ? Alignment.topLeft
+                                    : Alignment.topRight
+                                : Alignment.topRight,
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: chatMessage.idFrom != userChatId
+                                      ? Colors.green.shade300
+                                      : Colors.white),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    '${chatMessage.content}',
+                                    style: TextStyle(
+                                        color: chatMessage.idFrom != userChatId
+                                            ? Colors.white
+                                            : Colors.black),
+                                  ),
+                                  Text(
+                                    chatMessage.timeStamp!
+                                        .fromMiliSecond()
+                                        .toTime(),
+                                    style: TextStyle(
+                                        fontSize: 8,
+                                        color: chatMessage.idFrom != userChatId
+                                            ? Colors.black54
+                                            : Colors.black),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

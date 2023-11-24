@@ -49,6 +49,13 @@ class ChatProvider {
         .doc(id)
         .delete();
   }
+
+  static void deleteAllMessage(String groupChatId) {
+    FirebaseFirestore.instance
+        .collection(FirestoreConstants.pathMessageCollection)
+        .doc(groupChatId)
+        .delete();
+  }
 }
 
 class TypeMessage {

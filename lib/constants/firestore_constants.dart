@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class FirestoreConstants {
   static const pathUserCollection = "users";
   static const pathMessageCollection = "messages";
@@ -12,4 +14,6 @@ class FirestoreConstants {
   static const content = "content";
   static const type = "type";
   static const email = "email";
+  static const isAdmin = 'isAdmin';
+  static const LOGGED = 'is_logged';
 }

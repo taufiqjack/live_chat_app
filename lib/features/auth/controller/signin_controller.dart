@@ -5,8 +5,11 @@ import 'package:live_chat_app/core/services/auth_service.dart';
 import 'package:live_chat_app/features/auth/view/signin_view.dart';
 import 'package:live_chat_app/features/dashboard/view/dashboard_view.dart';
 import 'package:live_chat_app/routes/route.dart';
+import 'package:toast/toast.dart';
 
 class SignInController extends State<SignInView> {
+  var email = TextEditingController();
+  var password = TextEditingController();
   bool isAsync = false;
   var googleSignIn = GoogleSignIn(
     scopes: [
@@ -16,16 +19,37 @@ class SignInController extends State<SignInView> {
 
   @override
   void initState() {
+    ToastContext().init(context);
     super.initState();
   }
 
-  signIn() async {
+  signInMember() async {
     isAsync = true;
     setState(() {});
-    var success = await AuthService.doLoginAsMember();
+    var success = await AuthService.loginAsMember();
     if (success == true) {
       Future.delayed(const Duration(milliseconds: 500),
           () => Go.to(const DashboardView()));
+    }
+  }
+
+  signInAdmin() async {
+    if (email.text.isEmpty && password.text.isEmpty) {
+      Toast.show("Form can't be empty",
+          gravity: Toast.bottom, duration: Toast.lengthLong);
+    } else {
+      isAsync = true;
+      setState(() {});
+      var success = await AuthService.loginAsAdmin(email.text, password.text);
+      if (success == true) {
+        Future.delayed(const Duration(milliseconds: 500),
+            () => Go.to(const DashboardView()));
+      } else {
+        isAsync = false;
+        setState(() {});
+        Toast.show('Wrong Email or Password for that User',
+            gravity: Toast.bottom, duration: Toast.lengthLong);
+      }
     }
   }
 
@@ -64,7 +88,7 @@ class SignInController extends State<SignInView> {
                     SystemNavigator.pop();
                   },
                   child: const Text(
-                    'Ok',
+                    'OK',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,

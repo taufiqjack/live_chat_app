@@ -33,6 +33,23 @@ class UserService {
     };
   }
 
+  static createUserAdmin() async {
+    var snapshot = await userCollection.get();
+    if (!snapshot.exists) {
+      await userCollection.set({
+        FirestoreConstants.id: FirebaseAuth.instance.currentUser!.uid,
+        FirestoreConstants.email: FirebaseAuth.instance.currentUser!.email,
+      });
+    }
+  }
+
+  static getAdmin() {
+    return {
+      FirestoreConstants.id: FirebaseAuth.instance.currentUser!.uid,
+      FirestoreConstants.email: FirebaseAuth.instance.currentUser!.email,
+    };
+  }
+
   static getUser() async {
     final documentSnapshot = FirebaseFirestore.instance
         .collection(FirestoreConstants.pathUserCollection)

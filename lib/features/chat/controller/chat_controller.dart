@@ -64,9 +64,9 @@ class ChatController extends State<ChatView> {
     }
   }
 
-  /* void deleteMessage() {
-    ChatProvider.deletAllData(groupChatId);
-  } */
+  void deleteMessage() {
+    ChatProvider.deleteAllMessage(groupChatId);
+  }
 
   @override
   Widget build(BuildContext context) => widget.build(context, this);

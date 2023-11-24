@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:live_chat_app/constants/firestore_constants.dart';
 import 'package:live_chat_app/core/models/user_chat_model.dart';
 import 'package:live_chat_app/core/services/dashboard_service.dart';
 import 'package:live_chat_app/features/chat/view/chat_view.dart';
 import 'package:live_chat_app/features/dashboard/controller/dashboard_controller.dart';
+import 'package:live_chat_app/features/profile/view/profile_view.dart';
 import 'package:live_chat_app/features/widgets/common_modal_progress.dart';
+import 'package:live_chat_app/hive/hive_storage.dart';
 import 'package:live_chat_app/routes/route.dart';
 
 class DashboardView extends StatefulWidget {
@@ -33,6 +34,23 @@ class DashboardView extends StatefulWidget {
               ),
               itemBuilder: (context) {
                 return [
+                  PopupMenuItem(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            'Profile',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          Icon(
+                            Icons.person,
+                            color: Colors.black,
+                          )
+                        ]),
+                    onTap: () => Go.to(const ProfileView()),
+                  ),
                   PopupMenuItem(
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,121 +90,91 @@ class DashboardView extends StatefulWidget {
                         childAspectRatio: 2.7 / 4,
                       ),
                       children: [
-                        InkWell(
-                          onTap: () => Go.to(ChatView(
-                            name: 'Admin',
-                            userChatId: FirebaseAuth.instance.currentUser!.uid,
-                            title: 'Hanasui',
-                            price: 'Rp 123.500',
-                            image: 'assets/images/hanasui_lipcream.jpeg',
-                          )),
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            semanticContainer: true,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/hanasui_lipcream.jpeg',
-                                  ),
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          semanticContainer: true,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                child: Image.asset(
+                                  'assets/images/hanasui_lipcream.jpeg',
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('Hanasui'),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        'Rp 123.500',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('Hanasui'),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      'Rp 123.500',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        InkWell(
-                          onTap: () => Go.to(ChatView(
-                            userChatId: FirebaseAuth.instance.currentUser!.uid,
-                            title: 'Skentific 5X',
-                            price: 'Rp 176.200',
-                            image: 'assets/images/skentific_5x.jpeg',
-                            name: 'Admin',
-                          )),
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            semanticContainer: true,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/skentific_5x.jpeg',
-                                  ),
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          semanticContainer: true,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                child: Image.asset(
+                                  'assets/images/skentific_5x.jpeg',
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('Skentific 5X'),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        'Rp 176.200',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('Skentific 5X'),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      'Rp 176.200',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        InkWell(
-                          onTap: () => Go.to(ChatView(
-                            userChatId: FirebaseAuth.instance.currentUser!.uid,
-                            title: 'Skentific Sunscreen',
-                            price: 'Rp 65.300',
-                            image: 'assets/images/skentific_sunscreen.jpeg',
-                            name: 'Admin',
-                          )),
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            semanticContainer: true,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/skentific_sunscreen.jpeg',
-                                  ),
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          semanticContainer: true,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                child: Image.asset(
+                                  'assets/images/skentific_sunscreen.jpeg',
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text('Skentific Sunscreen'),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        'Rp 65.300',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text('Skentific Sunscreen'),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      'Rp 65.300',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ],
@@ -211,41 +199,204 @@ class DashboardView extends StatefulWidget {
                                               as DocumentSnapshot<Object?>);
                                   return userChat.id == controller.currentUserId
                                       ? const SizedBox()
-                                      : Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: InkWell(
-                                            onTap: () => Go.to(ChatView(
-                                                name: userChat.nickname,
-                                                userChatId: userChat.id)),
-                                            child: Container(
-                                              padding: const EdgeInsets.all(5),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.grey.shade600,
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              child: Row(
-                                                children: [
-                                                  CircleAvatar(
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                            userChat.photoUrl),
-                                                    radius: 20,
+                                      : userChat.isAdmin ==
+                                              loggedBox.get(
+                                                  FirestoreConstants.isAdmin)
+                                          ? const SizedBox()
+                                          : userChat.isAdmin == true
+                                              ? Column(
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () =>
+                                                          Go.to(ChatView(
+                                                        userChatId: userChat.id,
+                                                        title: 'Skentific 5X',
+                                                        price: 'Rp 176.200',
+                                                        image:
+                                                            'assets/images/skentific_5x.jpeg',
+                                                        name: 'Admin',
+                                                      )),
+                                                      child: Card(
+                                                        elevation: 0.5,
+                                                        clipBehavior: Clip
+                                                            .antiAliasWithSaveLayer,
+                                                        semanticContainer: true,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5)),
+                                                        child: ListTile(
+                                                            trailing: Text(
+                                                              'Chat Admin',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .red
+                                                                      .shade600),
+                                                            ),
+                                                            leading: ClipRRect(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/skentific_5x.jpeg',
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
+                                                            ),
+                                                            title: const Text(
+                                                                'Skentific 5X'),
+                                                            subtitle: const Text(
+                                                                'Rp 176.200')),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () =>
+                                                          Go.to(ChatView(
+                                                        userChatId: userChat.id,
+                                                        title: 'Hanasui',
+                                                        price: 'Rp 123.500',
+                                                        image:
+                                                            'assets/images/hanasui_lipcream.jpeg',
+                                                        name: 'Admin',
+                                                      )),
+                                                      child: Card(
+                                                        elevation: 0.5,
+                                                        clipBehavior: Clip
+                                                            .antiAliasWithSaveLayer,
+                                                        semanticContainer: true,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5)),
+                                                        child: ListTile(
+                                                            trailing: Text(
+                                                              'Chat Admin',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .red
+                                                                      .shade600),
+                                                            ),
+                                                            leading: ClipRRect(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/hanasui_lipcream.jpeg',
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
+                                                            ),
+                                                            title: const Text(
+                                                                'Skentific 5X'),
+                                                            subtitle: const Text(
+                                                                'Rp 123.500')),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () =>
+                                                          Go.to(ChatView(
+                                                        userChatId: userChat.id,
+                                                        title:
+                                                            'Skentific Sunscreen',
+                                                        price: 'Rp 65.300',
+                                                        image:
+                                                            'assets/images/skentific_sunscreen.jpeg',
+                                                        name: 'Admin',
+                                                      )),
+                                                      child: Card(
+                                                        elevation: 0.5,
+                                                        clipBehavior: Clip
+                                                            .antiAliasWithSaveLayer,
+                                                        semanticContainer: true,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5)),
+                                                        child: ListTile(
+                                                            trailing: Text(
+                                                              'Chat Admin',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .red
+                                                                      .shade600),
+                                                            ),
+                                                            leading: ClipRRect(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/skentific_sunscreen.jpeg',
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
+                                                            ),
+                                                            title: const Text(
+                                                                'Skentific 5X'),
+                                                            subtitle: const Text(
+                                                                'Rp 65.300')),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 10),
+                                                  child: Column(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () => Go
+                                                            .to(ChatView(
+                                                                name: userChat
+                                                                    .nickname,
+                                                                userChatId:
+                                                                    userChat
+                                                                        .id)),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5),
+                                                          decoration: BoxDecoration(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5)),
+                                                          child: Row(
+                                                            children: [
+                                                              CircleAvatar(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                backgroundImage:
+                                                                    NetworkImage(
+                                                                        userChat
+                                                                            .photoUrl),
+                                                                radius: 20,
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 10),
+                                                              Text(
+                                                                userChat
+                                                                            .isAdmin ==
+                                                                        true
+                                                                    ? 'Admin'
+                                                                        .toUpperCase()
+                                                                    : userChat
+                                                                        .nickname
+                                                                        .toUpperCase(),
+                                                                style: const TextStyle(
+                                                                    color: Colors
+                                                                        .black),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  const SizedBox(width: 10),
-                                                  Text(
-                                                    userChat.nickname
-                                                        .toUpperCase(),
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
+                                                );
                                 } else {
                                   return const SizedBox.shrink();
                                 }

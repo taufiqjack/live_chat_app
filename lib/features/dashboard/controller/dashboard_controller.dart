@@ -8,6 +8,7 @@ import 'package:live_chat_app/core/services/auth_service.dart';
 import 'package:live_chat_app/core/services/dashboard_service.dart';
 import 'package:live_chat_app/features/auth/view/signin_view.dart';
 import 'package:live_chat_app/features/dashboard/view/dashboard_view.dart';
+import 'package:live_chat_app/hive/hive_storage.dart';
 import 'package:live_chat_app/routes/route.dart';
 import 'package:toast/toast.dart';
 
@@ -26,15 +27,17 @@ class DashboardController extends State<DashboardView> {
     if (FirebaseAuth.instance.currentUser != null) {
       currentUserId = FirebaseAuth.instance.currentUser?.uid;
       FirebaseMessaging.instance.requestPermission();
+
       FirebaseMessaging.instance.getToken().then((token) {
         if (kDebugMode) {
           print('token : $token');
         }
         if (token != null) {
           DashboardService.updateDataFirestore(
-              FirestoreConstants.pathUserCollection,
-              currentUserId!,
-              {'pushToken': token});
+              FirestoreConstants.pathUserCollection, currentUserId!, {
+            'pushToken': token,
+            'isAdmin': loggedBox.get(FirestoreConstants.isAdmin)
+          });
         }
       }).catchError((err) {
         Toast.show(err.toString());
@@ -47,7 +50,8 @@ class DashboardController extends State<DashboardView> {
     setState(() {});
     await AuthService.doLogout();
     Future.delayed(
-        const Duration(milliseconds: 500), () => Go.to(const SignInView()));
+            const Duration(milliseconds: 500), () => Go.to(const SignInView()))
+        .then((value) => loggedBox.clear());
   }
 
   Future<bool> willPop() async {

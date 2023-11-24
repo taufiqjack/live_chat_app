@@ -45,7 +45,9 @@ class ChatView extends StatefulWidget {
                       fontSize: 12,
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    ChatProvider.deleteAllMessage(controller.groupChatId);
+                  },
                 )
               ];
             },
@@ -184,7 +186,9 @@ class ChatView extends StatefulWidget {
                                 ? chatMessage.idFrom == userChatId
                                     ? Alignment.topLeft
                                     : Alignment.topRight
-                                : Alignment.topRight,
+                                : chatMessage.idFrom == userChatId
+                                    ? Alignment.topLeft
+                                    : Alignment.topRight,
                             child: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(

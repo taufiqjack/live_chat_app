@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:live_chat_app/features/splash/views/splash_view.dart';
 import 'package:live_chat_app/firebase_options.dart';
+import 'package:live_chat_app/hive/hive_stuff.dart';
 import 'package:live_chat_app/routes/route.dart';
-import 'package:toast/toast.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await HiveStuff.init();
   runApp(const MyApp());
 }
 
@@ -17,7 +18,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ToastContext().init(context);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.dark));

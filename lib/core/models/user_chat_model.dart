@@ -8,18 +8,22 @@ class UserChatModel {
   final String photoUrl;
   final String nickname;
   final String aboutMe;
+  final bool isAdmin;
 
-  const UserChatModel(
-      {required this.id,
-      required this.photoUrl,
-      required this.nickname,
-      required this.aboutMe});
+  const UserChatModel({
+    required this.id,
+    required this.photoUrl,
+    required this.nickname,
+    required this.aboutMe,
+    required this.isAdmin,
+  });
 
   Map<String, String> toJson() {
     return {
       FirestoreConstants.nickname: nickname,
       FirestoreConstants.aboutMe: aboutMe,
       FirestoreConstants.photoUrl: photoUrl,
+      FirestoreConstants.isAdmin: isAdmin.toString(),
     };
   }
 
@@ -27,6 +31,7 @@ class UserChatModel {
     String aboutMe = "";
     String photoUrl = "";
     String nickname = "";
+    bool? isAdmin;
     try {
       aboutMe = doc.get(FirestoreConstants.aboutMe);
     } catch (e) {}
@@ -36,11 +41,15 @@ class UserChatModel {
     try {
       nickname = doc.get(FirestoreConstants.nickname);
     } catch (e) {}
+    try {
+      isAdmin = doc.get(FirestoreConstants.isAdmin);
+    } catch (e) {}
     return UserChatModel(
       id: doc.id,
       photoUrl: photoUrl,
       nickname: nickname,
       aboutMe: aboutMe,
+      isAdmin: isAdmin!,
     );
   }
 }

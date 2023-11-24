@@ -31,6 +31,16 @@ dependencies:
   firebase_messaging: ^14.7.4
   intl: ^0.18.1
   flutter_slidable: ^3.0.1
+  image_picker: ^1.0.4
+  image_cropper: ^4.0.1
+  font_awesome_flutter: ^10.4.0
+  cached_network_image: ^3.2.3
+  badges: ^3.1.1
+  skeleton_text: ^3.0.1
+  uuid: ^4.1.0
+  file: ^6.1.4
+  hive: ^2.2.3
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:

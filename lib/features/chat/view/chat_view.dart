@@ -167,61 +167,107 @@ class ChatView extends StatefulWidget {
                               .data?.docs[index] as DocumentSnapshot<Object?>);
                       return Padding(
                         padding: const EdgeInsets.only(top: 5, bottom: 8),
-                        child: Slidable(
-                          endActionPane: ActionPane(
-                              motion: const ScrollMotion(),
-                              children: [
-                                SlidableAction(
-                                  backgroundColor: Colors.red.shade300,
-                                  onPressed: (context) {
-                                    ChatProvider.deleteMessageId(
-                                        controller.groupChatId,
-                                        chatMessage.timeStamp!);
-                                  },
-                                  icon: Icons.delete,
-                                )
-                              ]),
-                          child: Align(
-                            alignment: image == null
-                                ? chatMessage.idFrom == userChatId
-                                    ? Alignment.topLeft
-                                    : Alignment.topRight
-                                : chatMessage.idFrom == userChatId
-                                    ? Alignment.topLeft
-                                    : Alignment.topRight,
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: chatMessage.idFrom != userChatId
-                                      ? Colors.green.shade300
-                                      : Colors.white),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    '${chatMessage.content}',
-                                    style: TextStyle(
-                                        color: chatMessage.idFrom != userChatId
-                                            ? Colors.white
-                                            : Colors.black),
+                        child: chatMessage.idFrom == userChatId
+                            ? Align(
+                                alignment: image == null
+                                    ? chatMessage.idFrom == userChatId
+                                        ? Alignment.topLeft
+                                        : Alignment.topRight
+                                    : chatMessage.idFrom == userChatId
+                                        ? Alignment.topLeft
+                                        : Alignment.topRight,
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: chatMessage.idFrom != userChatId
+                                          ? Colors.green.shade300
+                                          : Colors.white),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        '${chatMessage.content}',
+                                        style: TextStyle(
+                                            color:
+                                                chatMessage.idFrom != userChatId
+                                                    ? Colors.white
+                                                    : Colors.black),
+                                      ),
+                                      Text(
+                                        chatMessage.timeStamp!
+                                            .fromMiliSecond()
+                                            .toTime(),
+                                        style: TextStyle(
+                                            fontSize: 8,
+                                            color:
+                                                chatMessage.idFrom != userChatId
+                                                    ? Colors.black54
+                                                    : Colors.black),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    chatMessage.timeStamp!
-                                        .fromMiliSecond()
-                                        .toTime(),
-                                    style: TextStyle(
-                                        fontSize: 8,
+                                ),
+                              )
+                            : Slidable(
+                                endActionPane: ActionPane(
+                                    motion: const ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        backgroundColor: Colors.red.shade300,
+                                        onPressed: (context) {
+                                          ChatProvider.deleteMessageId(
+                                              controller.groupChatId,
+                                              chatMessage.timeStamp!);
+                                        },
+                                        icon: Icons.delete,
+                                      )
+                                    ]),
+                                child: Align(
+                                  alignment: image == null
+                                      ? chatMessage.idFrom == userChatId
+                                          ? Alignment.topLeft
+                                          : Alignment.topRight
+                                      : chatMessage.idFrom == userChatId
+                                          ? Alignment.topLeft
+                                          : Alignment.topRight,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
                                         color: chatMessage.idFrom != userChatId
-                                            ? Colors.black54
-                                            : Colors.black),
-                                    textAlign: TextAlign.right,
+                                            ? Colors.green.shade300
+                                            : Colors.white),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          '${chatMessage.content}',
+                                          style: TextStyle(
+                                              color: chatMessage.idFrom !=
+                                                      userChatId
+                                                  ? Colors.white
+                                                  : Colors.black),
+                                        ),
+                                        Text(
+                                          chatMessage.timeStamp!
+                                              .fromMiliSecond()
+                                              .toTime(),
+                                          style: TextStyle(
+                                              fontSize: 8,
+                                              color: chatMessage.idFrom !=
+                                                      userChatId
+                                                  ? Colors.black54
+                                                  : Colors.black),
+                                          textAlign: TextAlign.right,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
                       );
                     },
                   );

@@ -17,8 +17,16 @@ class ProfileView extends StatefulWidget {
 
   Widget build(context, ProfileController controller) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Profil Anda"),
+        elevation: 0.5,
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: const Text(
+          "Profil Anda",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -34,7 +42,7 @@ class ProfileView extends StatefulWidget {
                       if (snapshot.hasError) return const Text('error');
                       if (!snapshot.hasData) return const Text('No Data');
                       UserChatModel user = UserChatModel.fromDocument(
-                          snapshot.data!.data() as DocumentSnapshot<Object?>);
+                          snapshot.data as DocumentSnapshot<Object?>);
                       return GestureDetector(
                         onTap: () {
                           uploadwidget(context, controller);
@@ -46,28 +54,39 @@ class ProfileView extends StatefulWidget {
                             color: Colors.white,
                             size: 15,
                           ),
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl: user.photoUrl ??
-                                  "https://i.ibb.co/S32HNjD/no-image.jpg",
-                              height: Go.height / 5,
-                              width: Go.width / 5,
-                              placeholder: (context, url) => SkeletonAnimation(
-                                  child: Container(
-                                height: Go.height / 5,
-                                width: Go.width / 5,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(Go.width / 5),
-                                    color: Colors.grey),
-                              )),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.pink.shade200,
+                            radius: Go.height / 9,
+                            child: ClipOval(
+                              child: user.photoUrl.isEmpty
+                                  ? Image.asset(
+                                      'assets/images/mutiara_cosmetics_logo.jpeg',
+                                      height: Go.height / 5,
+                                      width: Go.width / 5,
+                                    )
+                                  : CachedNetworkImage(
+                                      imageUrl: user.photoUrl,
+                                      height: Go.height / 5,
+                                      width: Go.width / 5,
+                                      placeholder: (context, url) =>
+                                          SkeletonAnimation(
+                                              child: Container(
+                                        height: Go.height / 5,
+                                        width: Go.width / 5,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                Go.width / 5),
+                                            color: Colors.grey.shade300),
+                                      )),
+                                    ),
                             ),
                           ),
                         ),
                       );
                     }),
+                const SizedBox(height: 10),
                 Text(
-                  "${FirebaseAuth.instance.currentUser!.displayName}",
+                  FirebaseAuth.instance.currentUser!.displayName ?? 'admin',
                   style: const TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,

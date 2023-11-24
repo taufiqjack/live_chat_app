@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:live_chat_app/constants/firestore_constants.dart';
 import 'package:live_chat_app/core/models/user_chat_model.dart';
 import 'package:live_chat_app/core/services/dashboard_service.dart';
@@ -9,6 +11,7 @@ import 'package:live_chat_app/features/profile/view/profile_view.dart';
 import 'package:live_chat_app/features/widgets/common_modal_progress.dart';
 import 'package:live_chat_app/hive/hive_storage.dart';
 import 'package:live_chat_app/routes/route.dart';
+import 'package:skeleton_text/skeleton_text.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -17,14 +20,15 @@ class DashboardView extends StatefulWidget {
     return ModalProgress(
       inAsyncCall: controller.isAsync,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 0.5,
           centerTitle: true,
           title: const Text(
-            'Live Chat',
-            style: TextStyle(color: Colors.black),
+            'Mutiara Cosmetics',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
           ),
           actions: [
             PopupMenuButton(
@@ -35,22 +39,26 @@ class DashboardView extends StatefulWidget {
               itemBuilder: (context) {
                 return [
                   PopupMenuItem(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            'Profile',
-                            style: TextStyle(
-                              fontSize: 12,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              'Profile',
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
                             ),
-                          ),
-                          Icon(
-                            Icons.person,
-                            color: Colors.black,
-                          )
-                        ]),
-                    onTap: () => Go.to(const ProfileView()),
-                  ),
+                            Icon(
+                              Icons.person,
+                              color: Colors.black,
+                            )
+                          ]),
+                      onTap: () {
+                        SchedulerBinding.instance
+                            .addPostFrameCallback((timeStamp) {
+                          Go.to(const ProfileView());
+                        });
+                      }),
                   PopupMenuItem(
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -366,14 +374,35 @@ class DashboardView extends StatefulWidget {
                                                           child: Row(
                                                             children: [
                                                               CircleAvatar(
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                backgroundImage:
-                                                                    NetworkImage(
+                                                                child: ClipOval(
+                                                                  child:
+                                                                      CachedNetworkImage(
+                                                                    height:
+                                                                        Go.height /
+                                                                            5,
+                                                                    width:
+                                                                        Go.width /
+                                                                            5,
+                                                                    imageUrl:
                                                                         userChat
-                                                                            .photoUrl),
-                                                                radius: 20,
+                                                                            .photoUrl,
+                                                                    placeholder: (context,
+                                                                            url) =>
+                                                                        SkeletonAnimation(
+                                                                            child:
+                                                                                Container(
+                                                                      color: Colors
+                                                                          .grey
+                                                                          .shade300,
+                                                                      height:
+                                                                          Go.height /
+                                                                              5,
+                                                                      width:
+                                                                          Go.width /
+                                                                              5,
+                                                                    )),
+                                                                  ),
+                                                                ),
                                                               ),
                                                               const SizedBox(
                                                                   width: 10),

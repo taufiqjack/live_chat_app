@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:live_chat_app/core/services/auth_service.dart';
 import 'package:live_chat_app/features/auth/view/signin_view.dart';
 import 'package:live_chat_app/features/dashboard/view/dashboard_view.dart';
 import 'package:live_chat_app/features/splash/views/splash_view.dart';

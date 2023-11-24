@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -5,6 +7,7 @@ import 'package:live_chat_app/core/services/auth_service.dart';
 import 'package:live_chat_app/features/auth/view/signin_view.dart';
 import 'package:live_chat_app/features/dashboard/view/dashboard_view.dart';
 import 'package:live_chat_app/routes/route.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
 
 class SignInController extends State<SignInView> {
@@ -34,7 +37,7 @@ class SignInController extends State<SignInView> {
   }
 
   signInAdmin() async {
-    if (email.text.isEmpty && password.text.isEmpty) {
+    if (email.text.isEmpty || password.text.isEmpty) {
       Toast.show("Form can't be empty",
           gravity: Toast.bottom, duration: Toast.lengthLong);
     } else {
@@ -47,8 +50,27 @@ class SignInController extends State<SignInView> {
       } else {
         isAsync = false;
         setState(() {});
-        Toast.show('Wrong Email or Password for that User',
-            gravity: Toast.bottom, duration: Toast.lengthLong);
+        Alert(
+            context: context,
+            type: AlertType.error,
+            desc: 'Wrong Email or Password\nfor that User',
+            style: AlertStyle(
+                descStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.red.withOpacity(0.7))),
+            buttons: [
+              DialogButton(
+                color: Colors.grey.shade500,
+                child: const Text(
+                  'OK',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Go.back();
+                },
+              )
+            ]).show();
       }
     }
   }

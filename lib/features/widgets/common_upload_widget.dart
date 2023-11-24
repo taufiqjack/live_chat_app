@@ -37,7 +37,7 @@ void uploadwidget(BuildContext context, ProfileController controller) async {
                             Navigator.pop(context);
                           },
                           child: const Icon(
-                            FontAwesomeIcons.trashAlt,
+                            FontAwesomeIcons.xmark,
                             size: 20,
                             color: Colors.black,
                           ),
@@ -65,7 +65,7 @@ void uploadwidget(BuildContext context, ProfileController controller) async {
                                   height: 50,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
-                                      color: Colors.purple.shade500),
+                                      color: Colors.pink.shade300),
                                   child: const Icon(
                                     FontAwesomeIcons.camera,
                                     color: Colors.white,
@@ -95,7 +95,7 @@ void uploadwidget(BuildContext context, ProfileController controller) async {
                                   height: 50,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
-                                      color: Colors.purple.shade500),
+                                      color: Colors.pink.shade300),
                                   child: const Icon(
                                     FontAwesomeIcons.image,
                                     color: Colors.white,

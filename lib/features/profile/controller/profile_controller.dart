@@ -26,7 +26,6 @@ class ProfileController extends State<ProfileView> {
   File? imageFile;
   dynamic pickImageError;
   final picker = ImagePicker();
-  CroppedFile? croppedFile;
 
   Future<void> cropImage() async {
     final cropped = await ImageCropper().cropImage(
@@ -36,14 +35,14 @@ class ProfileController extends State<ProfileView> {
             : [CropAspectRatioPreset.square],
         uiSettings: [
           AndroidUiSettings(
-              toolbarTitle: 'Crop Image',
+              toolbarTitle: 'Cropper',
               toolbarColor: Colors.green.shade800,
               toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.square,
+              initAspectRatio: CropAspectRatioPreset.original,
               hideBottomControls: true,
-              lockAspectRatio: true),
+              lockAspectRatio: false),
           IOSUiSettings(
-            title: 'Crop Image',
+            title: 'Cropper',
             cancelButtonTitle: 'Batal',
             doneButtonTitle: 'Gunakan',
             resetButtonHidden: true,
@@ -53,7 +52,7 @@ class ProfileController extends State<ProfileView> {
           )
         ]);
     if (cropped != null) {
-      croppedFile = cropped;
+      imageFile = File(cropped.path);
       setState(() {});
     } else {
       imageFile = null;
@@ -64,7 +63,9 @@ class ProfileController extends State<ProfileView> {
   onPickImage(ImageSource source) async {
     try {
       final pickedFile = await picker.pickImage(source: source);
-      if (pickedFile != null) imageFile = File(pickedFile.path);
+      if (pickedFile != null) {
+        imageFile = File(pickedFile.path);
+      }
       setState(() {});
     } catch (e) {
       pickImageError = e;

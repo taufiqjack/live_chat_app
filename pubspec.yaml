@@ -17,7 +17,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   page_transition: ^2.1.0
   firebase_core: ^2.22.0
-  flutter_svg: ^2.0.5
+  flutter_svg: 
   freezed: ^2.4.1
   freezed_annotation: ^2.4.1
   build_runner: ^2.3.3
@@ -43,6 +43,11 @@ dependencies:
   path_provider: ^2.1.1
   rflutter_alert: ^2.0.7
   google_fonts: ^4.0.4
+  flutter_math_fork: ^0.5.0
+  flutter_tex: ^4.0.3+4
+  connectivity_plus: ^2.1.0
+  data_connection_checker_tv: ^0.3.5-nullsafety
+
 
 dev_dependencies:
   flutter_test:

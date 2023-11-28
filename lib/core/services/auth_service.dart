@@ -13,11 +13,11 @@ class AuthService {
 
   static loginAsMember() async {
     var isLoggedIn = await doGoogleLogin();
-    await UserService.createUserIfNotExists();
-    await UserService.getUserData();
     if (isLoggedIn) {
       currentUser = FirebaseAuth.instance.currentUser!;
       loggedBox.put(FirestoreConstants.isAdmin, false);
+      await UserService.getUserData();
+      await UserService.createUserIfNotExists();
     }
     return isLoggedIn;
   }

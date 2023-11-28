@@ -1,15 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:live_chat_app/constants/firestore_constants.dart';
 import 'package:live_chat_app/core/services/auth_service.dart';
 import 'package:live_chat_app/core/services/internet_connection.dart';
 import 'package:live_chat_app/features/auth/view/signin_view.dart';
 import 'package:live_chat_app/features/dashboard/view/dashboard_view.dart';
 import 'package:live_chat_app/features/widgets/common_snackbar.dart';
+import 'package:live_chat_app/hive/hive_storage.dart';
 import 'package:live_chat_app/routes/route.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
@@ -18,6 +18,7 @@ class SignInController extends State<SignInView> {
   var email = TextEditingController();
   var password = TextEditingController();
   bool isAsync = false;
+  bool isCheck = false;
   var googleSignIn = GoogleSignIn(
     scopes: [
       'email',
@@ -28,6 +29,40 @@ class SignInController extends State<SignInView> {
   void initState() {
     ToastContext().init(context);
     super.initState();
+    getEmailPass();
+  }
+
+  void remember(value) {
+    if (email.text.isEmpty || password.text.isEmpty) {
+      Toast.show("Form can't be empty",
+          gravity: Toast.bottom, duration: Toast.lengthLong);
+    } else {
+      isCheck = value;
+      setState(() {});
+      if (value == false) {
+        isCheck = false;
+        setState(() {});
+        checkBox.put(FirestoreConstants.ISCHECK, isCheck);
+        emailPassBox.clear();
+      } else {
+        isCheck = true;
+        setState(() {});
+        rememberEmailPass();
+      }
+    }
+  }
+
+  void rememberEmailPass() {
+    emailPassBox.put(FirestoreConstants.EMAIL, email.text);
+    emailPassBox.put(FirestoreConstants.PASS, password.text);
+    checkBox.put(FirestoreConstants.ISCHECK, isCheck);
+  }
+
+  void getEmailPass() {
+    isCheck = checkBox.get(FirestoreConstants.ISCHECK) ?? false;
+    email.text = emailPassBox.get(FirestoreConstants.EMAIL) ?? '';
+    password.text = emailPassBox.get(FirestoreConstants.PASS) ?? '';
+    isCheck = checkBox.get(FirestoreConstants.ISCHECK) ?? false;
   }
 
   signInMember() async {

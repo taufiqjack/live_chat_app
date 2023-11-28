@@ -14,5 +14,8 @@ class HiveStuff {
 
     loggedBox = await Hive.openBox(FirestoreConstants.isAdmin);
     loggedBox = await Hive.openBox(FirestoreConstants.LOGGED);
+    emailPassBox = await Hive.openBox(FirestoreConstants.EMAIL);
+    emailPassBox = await Hive.openBox(FirestoreConstants.PASS);
+    checkBox = await Hive.openBox(FirestoreConstants.ISCHECK);
   }
 }

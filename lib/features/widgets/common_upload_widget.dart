@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:live_chat_app/core/services/user_service.dart';
 import 'package:live_chat_app/features/profile/controller/profile_controller.dart';
 import 'package:live_chat_app/routes/route.dart';
 

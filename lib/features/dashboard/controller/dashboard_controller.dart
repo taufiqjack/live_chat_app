@@ -27,7 +27,6 @@ class DashboardController extends State<DashboardView> {
     if (FirebaseAuth.instance.currentUser != null) {
       currentUserId = FirebaseAuth.instance.currentUser?.uid;
       FirebaseMessaging.instance.requestPermission();
-
       FirebaseMessaging.instance.getToken().then((token) {
         if (kDebugMode) {
           print('token : $token');
@@ -48,7 +47,7 @@ class DashboardController extends State<DashboardView> {
   logout() async {
     isAsync = true;
     setState(() {});
-    await AuthService.doLogout();
+    await AuthService.logOut();
     Future.delayed(
             const Duration(milliseconds: 500), () => Go.to(const SignInView()))
         .then((value) => loggedBox.clear());

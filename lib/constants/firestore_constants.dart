@@ -16,4 +16,7 @@ class FirestoreConstants {
   static const email = "email";
   static const isAdmin = 'isAdmin';
   static const LOGGED = 'is_logged';
+  static const ISCHECK = 'isCheck';
+  static const EMAIL = 'email';
+  static const PASS = 'password';
 }

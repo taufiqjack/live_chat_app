@@ -12,7 +12,7 @@ class AuthService {
   static UserModel? userModel;
 
   static loginAsMember() async {
-    var isLoggedIn = await doGoogleLogin();
+    var isLoggedIn = await googleSignIn();
     if (isLoggedIn) {
       currentUser = FirebaseAuth.instance.currentUser!;
       loggedBox.put(FirestoreConstants.isAdmin, false);
@@ -33,7 +33,7 @@ class AuthService {
     return isLoggedIn;
   }
 
-  static doLogout() async {
+  static logOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
@@ -60,7 +60,7 @@ class AuthService {
     }
   }
 
-  static Future<bool> doGoogleLogin() async {
+  static Future<bool> googleSignIn() async {
     GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: [
         'email',
@@ -79,8 +79,8 @@ class AuthService {
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
-      var userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
       return Future.value(true);
     } catch (_) {
       return Future.value(false);

@@ -40,6 +40,14 @@ class SignInView extends StatefulWidget {
                               borderRadius: BorderRadius.circular(5))),
                     ),
                     const SizedBox(height: 15),
+                    CheckboxListTile(
+                      contentPadding: const EdgeInsets.only(left: 0),
+                      value: controller.isCheck,
+                      onChanged: (value) => controller.remember(value),
+                      title: const Text('Remember Me'),
+                      controlAffinity: ListTileControlAffinity.leading,
+                    ),
+                    const SizedBox(height: 15),
                     TextButton(
                       onPressed: () => controller.signInAdmin(),
                       style: TextButton.styleFrom(
@@ -68,7 +76,9 @@ class SignInView extends StatefulWidget {
                           SvgPicture.asset('assets/svg/google_icon.svg'),
                           const Text(
                             'Sign In as Member',
-                            style: TextStyle(color: Colors.black54),
+                            style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.w700),
                           ),
                         ],
                       ),

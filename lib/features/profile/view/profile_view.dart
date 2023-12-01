@@ -28,79 +28,83 @@ class ProfileView extends StatefulWidget {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                StreamBuilder<DocumentSnapshot<Object?>>(
-                    stream: userCollection.snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) return const Text('error');
-                      if (!snapshot.hasData) return const Text('No Data');
-                      UserChatModel user = UserChatModel.fromDocument(
-                          snapshot.data as DocumentSnapshot<Object?>);
-                      return GestureDetector(
-                        onTap: () {
-                          uploadwidget(context, controller);
-                        },
-                        child: badge.Badge(
-                          position: BadgePosition.custom(bottom: 0, end: 0),
-                          badgeContent: const Icon(
-                            FontAwesomeIcons.camera,
-                            color: Colors.white,
-                            size: 15,
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.pink.shade200,
-                            radius: Go.height / 9,
-                            child: ClipOval(
-                              child: user.photoUrl.isEmpty
-                                  ? Image.asset(
-                                      'assets/images/mutiara_cosmetics_logo.jpeg',
-                                      height: Go.height / 5,
-                                      width: Go.width / 5,
-                                    )
-                                  : CachedNetworkImage(
-                                      imageUrl: user.photoUrl,
-                                      height: Go.height / 5,
-                                      width: Go.width / 5,
-                                      placeholder: (context, url) =>
-                                          SkeletonAnimation(
-                                              child: Container(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
+        child: SingleChildScrollView(
+          child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  StreamBuilder<DocumentSnapshot<Object?>>(
+                      stream: userCollection.snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) return const Text('error');
+                        if (!snapshot.hasData) return const Text('No Data');
+                        UserChatModel user = UserChatModel.fromDocument(
+                            snapshot.data as DocumentSnapshot<Object?>);
+                        return GestureDetector(
+                          onTap: () {
+                            uploadwidget(context, controller);
+                          },
+                          child: badge.Badge(
+                            position: BadgePosition.custom(bottom: 0, end: 0),
+                            badgeContent: const Icon(
+                              FontAwesomeIcons.camera,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.pink.shade200,
+                              radius: Go.height / 9,
+                              child: ClipOval(
+                                child: user.photoUrl.isEmpty
+                                    ? Image.asset(
+                                        'assets/images/mutiara_cosmetics_logo.jpeg',
                                         height: Go.height / 5,
                                         width: Go.width / 5,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                Go.width / 5),
-                                            color: Colors.grey.shade300),
-                                      )),
-                                    ),
+                                      )
+                                    : CachedNetworkImage(
+                                        imageUrl: user.photoUrl,
+                                        height: Go.height / 5,
+                                        width: Go.width / 5,
+                                        placeholder: (context, url) =>
+                                            SkeletonAnimation(
+                                                child: Container(
+                                          height: Go.height / 5,
+                                          width: Go.width / 5,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      Go.width / 5),
+                                              color: Colors.grey.shade200),
+                                        )),
+                                      ),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }),
-                const SizedBox(height: 10),
-                Text(
-                  FirebaseAuth.instance.currentUser!.displayName ?? 'admin',
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
+                        );
+                      }),
+                  const SizedBox(height: 10),
+                  Text(
+                    FirebaseAuth.instance.currentUser!.displayName ?? 'admin',
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text(
-                  "${FirebaseAuth.instance.currentUser!.email}",
-                  style: const TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    "${FirebaseAuth.instance.currentUser!.email}",
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
-            )),
+                ],
+              )),
+        ),
       ),
     );
   }

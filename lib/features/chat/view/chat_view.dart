@@ -119,6 +119,10 @@ class ChatView extends StatefulWidget {
         ),
         Flexible(
           child: TextFormField(
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              minLines: null,
+              textInputAction: TextInputAction.newline,
               controller: controller.textMessage,
               decoration: InputDecoration(
                 fillColor: Colors.white,

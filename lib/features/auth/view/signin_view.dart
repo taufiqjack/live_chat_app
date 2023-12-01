@@ -24,6 +24,7 @@ class SignInView extends StatefulWidget {
                 child: Column(
                   children: [
                     TextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       controller: controller.email,
                       decoration: InputDecoration(
                           label: const Text('Email'),

@@ -20,6 +20,7 @@ class ChatController extends State<ChatView> {
     super.initState();
     scrollController.addListener(scrollListener);
     readDocument();
+    ToastContext().init(context);
   }
 
   scrollListener() {

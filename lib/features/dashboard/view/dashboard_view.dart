@@ -9,6 +9,7 @@ import 'package:live_chat_app/features/chat/view/chat_view.dart';
 import 'package:live_chat_app/features/dashboard/controller/dashboard_controller.dart';
 import 'package:live_chat_app/features/profile/view/profile_view.dart';
 import 'package:live_chat_app/features/scanner/scanner_view/scanner_view.dart';
+import 'package:live_chat_app/features/widgets/common_loading_dashboard.dart';
 import 'package:live_chat_app/features/widgets/common_modal_progress.dart';
 import 'package:live_chat_app/hive/hive_storage.dart';
 import 'package:live_chat_app/routes/route.dart';
@@ -482,65 +483,7 @@ class DashboardView extends StatefulWidget {
                         color: Colors.black, fontWeight: FontWeight.w700),
                   ),
                 ),
-                body: Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SkeletonAnimation(
-                              child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.grey.shade200,
-                            ),
-                            height: Go.height / 3,
-                            width: Go.width / 4,
-                          )),
-                          SkeletonAnimation(
-                              child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.grey.shade200,
-                            ),
-                            height: Go.height / 3,
-                            width: Go.width / 4,
-                          )),
-                          SkeletonAnimation(
-                              child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.grey.shade200,
-                            ),
-                            height: Go.height / 3,
-                            width: Go.width / 4,
-                          ))
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      SkeletonAnimation(
-                          child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey.shade200,
-                        ),
-                        height: Go.height / 8,
-                        width: Go.width / 1,
-                      )),
-                      const SizedBox(height: 20),
-                      SkeletonAnimation(
-                          child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey.shade200,
-                        ),
-                        height: Go.height / 8,
-                        width: Go.width / 1,
-                      )),
-                    ],
-                  ),
-                ),
+                body: const CommonLoadingDashboard(),
               );
             }
           },

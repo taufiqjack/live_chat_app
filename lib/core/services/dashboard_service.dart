@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:live_chat_app/constants/firestore_constants.dart';
 
 class DashboardService {
@@ -24,5 +25,10 @@ class DashboardService {
           .limit(limit)
           .snapshots();
     }
+  }
+
+  static Future<dynamic>? getDatabase() async {
+    final ref = FirebaseDatabase.instance.ref();
+    final snapshot = await ref.child('products').get();
   }
 }

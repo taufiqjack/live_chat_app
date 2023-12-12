@@ -42,6 +42,14 @@ class DashboardView extends StatefulWidget {
                           color: Colors.black, fontWeight: FontWeight.w700),
                     ),
                     actions: [
+                      InkWell(
+                        onTap: () {},
+                        child: const Icon(
+                          Icons.notifications,
+                          size: 20,
+                          color: Colors.black,
+                        ),
+                      ),
                       PopupMenuButton(
                         icon: const Icon(
                           Icons.more_vert,
@@ -446,7 +454,7 @@ class DashboardView extends StatefulWidget {
                                     return const SizedBox.shrink();
                                   }
                                 },
-                              )
+                              ),
                             ],
                           ),
                         ),

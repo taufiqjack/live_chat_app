@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:live_chat_app/features/dashboard/view/dashboard_view.dart';
 import 'package:live_chat_app/features/scanner/scanner_view/scanner_view.dart';
 import 'package:live_chat_app/routes/route.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -47,7 +46,7 @@ class ScannerController extends State<ScannerView> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
-                        Go.to(const DashboardView());
+                        Go.back();
                         scanController.dispose();
                       })
                 ]).show(),
@@ -57,3 +56,4 @@ class ScannerController extends State<ScannerView> {
   @override
   Widget build(BuildContext context) => widget.build(context, this);
 }
+

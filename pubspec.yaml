@@ -50,6 +50,7 @@ dependencies:
   mobile_scanner: ^3.5.5
   blurrycontainer: ^1.0.2
   flutter_launcher_icons: ^0.11.0
+  firebase_database: ^10.3.7
 
 
 dev_dependencies:

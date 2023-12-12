@@ -81,6 +81,10 @@ class ProfileView extends StatefulWidget {
                                                       Go.width / 5),
                                               color: Colors.grey.shade200),
                                         )),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(
+                                          Icons.error,
+                                        ),
                                       ),
                               ),
                             ),

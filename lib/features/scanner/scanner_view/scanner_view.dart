@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:live_chat_app/features/scanner/scanner_controller/scanner_controller.dart';
+import 'package:live_chat_app/features/widgets/custom_painter.dart';
 import 'package:live_chat_app/routes/route.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -7,6 +8,13 @@ class ScannerView extends StatefulWidget {
   const ScannerView({super.key});
 
   Widget build(BuildContext context, ScannerController controller) {
+    final scanWindow = RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: MediaQuery.of(context).size.center(Offset.zero),
+          width: 300,
+          height: 150,
+        ),
+        const Radius.circular(10));
     return Scaffold(
         body: Stack(
       children: [
@@ -15,6 +23,9 @@ class ScannerView extends StatefulWidget {
           onDetect: (capture) {
             controller.barcode(capture);
           },
+        ),
+        CustomPaint(
+          painter: ScannerOverlay(scanWindow),
         ),
         Positioned(
           top: 0,

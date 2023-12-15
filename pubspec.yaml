@@ -51,6 +51,7 @@ dependencies:
   blurrycontainer: ^1.0.2
   flutter_launcher_icons: ^0.11.0
   firebase_database: ^10.3.7
+  pin_code_fields: ^8.0.1
 
 
 dev_dependencies:

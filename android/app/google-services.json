@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "349467163675",
+    "firebase_url": "https://chat-app-27a76-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "chat-app-27a76",
+    "storage_bucket": "chat-app-27a76.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349467163675:android:7ccbd6c2e39d4768efccbe",
+        "android_client_info": {
+          "package_name": "dev.cahyonoz.live_chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349467163675-kdpk6c3l0tf4l7gntr7j01e4sq9odvvq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.cahyonoz.live_chat_app",
+            "certificate_hash": "e5a301fdda94d955a4705ae7ab27d6e9a13f04fd"
+          }
+        },
+        {
+          "client_id": "349467163675-p86itj1b92cpbq1sk65ro63t9u8446n5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.cahyonoz.live_chat_app",
+            "certificate_hash": "e73c2e31a3995d4c7bc9cbe7f2234dc97cc2f8a9"
+          }
+        },
+        {
+          "client_id": "349467163675-jjmnls9c86mpcrk5ot4p90sf3u78ging.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_JmQevEvbVGO2hLR5HcVcQHpWRBQMKiY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349467163675-jjmnls9c86mpcrk5ot4p90sf3u78ging.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "349467163675-2mr0fm8ukqc96dhrb8knlqoatsgqkksf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.cahyonoz.liveChatApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

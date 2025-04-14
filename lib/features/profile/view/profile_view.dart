@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart%20';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,7 +49,8 @@ class ProfileView extends StatefulWidget {
                             uploadwidget(context, controller);
                           },
                           child: badge.Badge(
-                            position: BadgePosition.custom(bottom: 0, end: 0),
+                            position:
+                                badge.BadgePosition.custom(bottom: 0, end: 0),
                             badgeContent: const Icon(
                               FontAwesomeIcons.camera,
                               color: Colors.white,

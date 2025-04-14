@@ -61,6 +61,7 @@ class DefaultFirebaseOptions {
     appId: '1:349467163675:android:7ccbd6c2e39d4768efccbe',
     messagingSenderId: '349467163675',
     projectId: 'chat-app-27a76',
+    databaseURL: 'https://chat-app-27a76-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'chat-app-27a76.appspot.com',
   );
 

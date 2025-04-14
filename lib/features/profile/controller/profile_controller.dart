@@ -28,29 +28,31 @@ class ProfileController extends State<ProfileView> {
   final picker = ImagePicker();
 
   Future<void> cropImage() async {
-    final cropped = await ImageCropper().cropImage(
-        sourcePath: imageFile!.path,
-        aspectRatioPresets: Platform.isAndroid
-            ? [CropAspectRatioPreset.square]
-            : [CropAspectRatioPreset.square],
-        uiSettings: [
-          AndroidUiSettings(
-              toolbarTitle: 'Cropper',
-              toolbarColor: Colors.green.shade800,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              hideBottomControls: true,
-              lockAspectRatio: false),
-          IOSUiSettings(
-            title: 'Cropper',
-            cancelButtonTitle: 'Batal',
-            doneButtonTitle: 'Gunakan',
-            resetButtonHidden: true,
-            rotateButtonsHidden: true,
-            aspectRatioPickerButtonHidden: true,
-            aspectRatioLockEnabled: true,
-          )
-        ]);
+    final cropped = await ImageCropper()
+        .cropImage(sourcePath: imageFile!.path, uiSettings: [
+      AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarColor: Colors.green.shade800,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          hideBottomControls: true,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          lockAspectRatio: false),
+      IOSUiSettings(
+        title: 'Cropper',
+        cancelButtonTitle: 'Batal',
+        doneButtonTitle: 'Gunakan',
+        resetButtonHidden: true,
+        rotateButtonsHidden: true,
+        aspectRatioPickerButtonHidden: true,
+        aspectRatioLockEnabled: true,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+        ],
+      )
+    ]);
     if (cropped != null) {
       imageFile = File(cropped.path);
       setState(() {});

@@ -80,8 +80,8 @@ class SignInController extends State<SignInView> {
       Toast.show("Form can't be empty",
           gravity: Toast.bottom, duration: Toast.lengthLong);
     } else {
-      await InternetConnection.isInternet().then((connection) async {
-        if (connection) {
+      await ConnectionInternet.isInternet().then((connection) async {
+        if (connection!) {
           isAsync = true;
           setState(() {});
           var success =
